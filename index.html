@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Basic callback page for implicit flow</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+    
+  </head>
+
+  <body>
+    <a id='message'></a>
+    <pre id='token'>
+    </pre>
+    <script>
+      
+      let params = new URLSearchParams(window.location.hash.substring(1));
+      
+      let login = params.get('login');
+      
+      if (login) {
+	
+	let loginUrl =
+	    `${login}` +
+	    `&response_type=token` +
+	    `&scope=email+openid+profile` +
+	    `&redirect_uri=${window.location.origin}${window.location.pathname}`;
+
+	if (params.get('debug')) {
+	  document.getElementById('message').innerHTML = loginUrl;
+	  document.getElementById('message').setAttribute('href', loginUrl);
+	} else {
+	  window.location.href = loginUrl;
+	}
+	
+      } else {
+	
+	let id_token = params.get('id_token');
+	let token_parts = id_token.split('.');
+
+	let claims = JSON.parse(atob(token_parts[1]));
+	document.getElementById('token').innerHTML = JSON.stringify(claims, undefined, 4);
+
+	// post the token back to the parent
+	if (window.opener) {
+	  window.opener.postMessage({id_token: claims});
+	}
+	
+      }
+    </script>
+  </body>
+</html>
+
