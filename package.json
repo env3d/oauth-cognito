@@ -1,0 +1,27 @@
+{
+  "name": "oauth-implicit-callback",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Auth.js",
+  "scripts": {
+    "start": "lite-server & parcel watch Auth.js --global Auth ",
+    "build": "parcel build Auth.js --global Auth -o auth.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/env3d/oauth-implicit-callback.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/env3d/oauth-implicit-callback/issues"
+  },
+  "homepage": "https://github.com/env3d/oauth-implicit-callback#readme",
+  "devDependencies": {
+    "crypto-browserify": "^3.12.0",
+    "lite-server": "^2.5.4",
+    "parcel": "^1.12.4"
+  }
+}

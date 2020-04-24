@@ -2,52 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
-    <title>Basic callback page for implicit flow</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <script src="./dist/Auth.js"></script>
   </head>
 
-  <body>
-    <a id='message'></a>
-    <pre id='token'>
-    </pre>
+  <body>    
+    <section class='section'>
+      
+      <button class='button' id='login'>login</button>
+      <button class='button' id='loginPopup'>login Popup</button>
+      <pre class='box' id='message'></pre>
+      
+    </section>
+
+    
     <script>
-      
-      let params = new URLSearchParams(window.location.hash.substring(1));
-      
-      let login = params.get('login');
-      
-      if (login) {
-	
-	let loginUrl =
-	    `${login}` +
-	    `&response_type=token` +
-	    `&scope=email+openid+profile` +
-	    `&redirect_uri=${window.location.origin}${window.location.pathname}`;
-
-	if (params.get('debug')) {
-	  document.getElementById('message').innerHTML = loginUrl;
-	  document.getElementById('message').setAttribute('href', loginUrl);
-	} else {
-	  window.location.href = loginUrl;
+      var auth = new Auth({
+	baseUrl: 'https://login.operatoroverload.com',
+	clientId: '47ile8emo7m8flnhjfuc5aa9i0',
+	onLogin: function () {
+	  auth.getToken().then( token => {
+	    message.innerHTML = JSON.stringify( JSON.parse( atob(token.split('.')[1]) ), null, 2);      
+	  });
 	}
-	
-      } else {
-	
-	let id_token = params.get('id_token');
-	let token_parts = id_token.split('.');
+      });
+      window['auth'] = auth;
 
-	let claims = JSON.parse(atob(token_parts[1]));
-	document.getElementById('token').innerHTML = JSON.stringify(claims, undefined, 4);
+      loginPopup.addEventListener('click', () => {
+	auth.loginPopup().then(token => {
+	  message.innerHTML = JSON.stringify(JSON.parse(atob(token.split('.')[1])), null, 4);
+	});
+      });
 
-	// post the token back to the parent
-	if (window.opener) {
-	  window.opener.postMessage({id_token: claims});
-	}
-	
-      }
+      login.addEventListener('click', () => {
+	auth.login();
+      });
+
+      
     </script>
+    
   </body>
 </html>
-

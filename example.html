@@ -49,6 +49,8 @@
       });
       
       let features = "menubar=no,location=no,resizable=no,scrollbars=no";
+      //let popupUrl = `${window.location.origin}`;
+      let popupUrl = `https://env3d.github.io/oauth-implicit-callback/index.html`;
       let userpool = 'https://operatoroverload.auth.us-west-2.amazoncognito.com/login'
 	  + '?client_id=5hgkcgd0cr8thi6us77cnns4ur'
 
@@ -56,7 +58,7 @@
 	
 	elem.addEventListener( 'click', evt => {
 	  if (!store.getState()['identity']) {
-	    loginWindow = window.open(`${window.location.origin}/#login=${userpool}`, null, features);
+	    loginWindow = window.open(`${popupUrl}#login=${userpool}`, null, features);
 	  } else {
 	    store.dispatch( {type: 'logout'} );
 	  }
