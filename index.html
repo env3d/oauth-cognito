@@ -17,11 +17,13 @@
 
     
     <script>
+      console.log('hello');
       var auth = new Auth({
 	baseUrl: 'https://login.operatoroverload.com',
 	clientId: '47ile8emo7m8flnhjfuc5aa9i0',
 	onLogin: function () {
 	  auth.getToken().then( token => {
+	    console.log(token);
 	    message.innerHTML = JSON.stringify( JSON.parse( atob(token.split('.')[1]) ), null, 2);      
 	  });
 	}

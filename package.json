@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/env3d/oauth-implicit-callback#readme",
   "devDependencies": {
-    "crypto-browserify": "^3.12.0",
     "lite-server": "^2.5.4",
     "parcel": "^1.12.4"
   }

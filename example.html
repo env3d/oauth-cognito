@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
 
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js"></script>
+    <script src="./dist/Auth.js"></script>
   </head>
 
   <body>
@@ -39,28 +39,23 @@
 	return prev;
       }, Redux.applyMiddleware(logger));
 
-      
-      var loginWindow;
-      window.addEventListener('message', evt => {
-	if (evt.data['id_token']) {
-	  store.dispatch({ type: 'login', data: evt.data['id_token'] });
-	  loginWindow.close();
-	}
+
+      const auth = new Auth({
+	onLogin: () => {
+	  auth.getToken().then( token => {
+	    store.dispatch({ type: 'login', data: token });	    
+	  });
+	}	  
       });
       
-      let features = "menubar=no,location=no,resizable=no,scrollbars=no";
-      //let popupUrl = `${window.location.origin}`;
-      let popupUrl = `https://env3d.github.io/oauth-implicit-callback/index.html`;
-      let userpool = 'https://operatoroverload.auth.us-west-2.amazoncognito.com/login'
-	  + '?client_id=5hgkcgd0cr8thi6us77cnns4ur'
-
       function createLogin(elem) {
 	
 	elem.addEventListener( 'click', evt => {
-	  if (!store.getState()['identity']) {
-	    loginWindow = window.open(`${popupUrl}#login=${userpool}`, null, features);
+	  if (elem.innerHTML == 'login') {
+	    auth.login();
 	  } else {
-	    store.dispatch( {type: 'logout'} );
+	    localStorage.clear();
+	    store.dispatch({ type: 'logout' });
 	  }
 	});
 	
