@@ -5,14 +5,14 @@ const STORAGE = {
 
 export default class Auth {
   
-  constructor({ baseUrl, clientId, onLogin }) {
+  constructor({ baseUrl, clientId, onLogin } = {} ) {
 
     // this.token is now filled, either with an empty object or with tokens
     this.loadFromStorage();
     // get the verifier from storage so we can send challenge
     this.refreshVerifier();
     
-    this.baseUrl = baseUrl || 'https://operatoroverload.auth.us-west-2.amazoncognito.com';    
+    this.baseUrl = baseUrl || 'https://login.operatoroverload.com';
     this.clientId = clientId || '47ile8emo7m8flnhjfuc5aa9i0';    
     this.redirect_uri = `${window.location.origin}${window.location.pathname}`;
     

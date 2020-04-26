@@ -4,36 +4,32 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <script src="./dist/Auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
   </head>
 
   <body>    
     <section class='section'>
       
       <button class='button' id='login'>login</button>
-      <button class='button' id='loginPopup'>login Popup</button>
+      <div class='box'>
+	<button class='button' id='copy' data-clipboard-target='#tokenBox'>copy code</button>
+	<pre class='input' id='tokenBox'></pre>
+      </div>
       <pre class='box' id='message'></pre>
       
     </section>
 
     
     <script>
-      console.log('hello');
+      var clipboard = new ClipboardJS('#copy');
       var auth = new Auth({
-	baseUrl: 'https://login.operatoroverload.com',
-	clientId: '47ile8emo7m8flnhjfuc5aa9i0',
 	onLogin: function () {
 	  auth.getToken().then( token => {
 	    console.log(token);
+	    tokenBox.innerHTML = token;
 	    message.innerHTML = JSON.stringify( JSON.parse( atob(token.split('.')[1]) ), null, 2);      
 	  });
 	}
-      });
-      window['auth'] = auth;
-
-      loginPopup.addEventListener('click', () => {
-	auth.loginPopup().then(token => {
-	  message.innerHTML = JSON.stringify(JSON.parse(atob(token.split('.')[1])), null, 4);
-	});
       });
 
       login.addEventListener('click', () => {

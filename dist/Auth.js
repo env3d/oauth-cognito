@@ -137,10 +137,11 @@ var STORAGE = {
 };
 
 var Auth = /*#__PURE__*/function () {
-  function Auth(_ref) {
+  function Auth() {
     var _this = this;
 
-    var baseUrl = _ref.baseUrl,
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        baseUrl = _ref.baseUrl,
         clientId = _ref.clientId,
         onLogin = _ref.onLogin;
 
@@ -150,7 +151,7 @@ var Auth = /*#__PURE__*/function () {
     this.loadFromStorage(); // get the verifier from storage so we can send challenge
 
     this.refreshVerifier();
-    this.baseUrl = baseUrl || 'https://operatoroverload.auth.us-west-2.amazoncognito.com';
+    this.baseUrl = baseUrl || 'https://login.operatoroverload.com';
     this.clientId = clientId || '47ile8emo7m8flnhjfuc5aa9i0';
     this.redirect_uri = "".concat(window.location.origin).concat(window.location.pathname);
     window.addEventListener('load', function () {
@@ -437,7 +438,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59484" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50257" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
